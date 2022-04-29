@@ -24,7 +24,7 @@ Select a Route
 
       <p class="lead alert alert-success">Select one route to edit or delete.</p>
 
-	  <!-- links to display a group of socks, alphabetically -->
+	  
 	  <ul class="pl-0">
 		  <li class="text-center list-group-item list-group-item-action"><a href="{{ url_for( 'select_record', letters='AF' ) }}">A &ndash; E</a></li>
 		  <li class="text-center list-group-item list-group-item-action"><a href="{{ url_for( 'select_record', letters='FM' ) }}">F &ndash; L</a></li>
@@ -46,13 +46,13 @@ Select a Route
 				<th>Danger Level</th>
 			</tr>
 
-			<!-- here is a for-loop to give us all the socks -->
+			
 			{% for route in routes %}
 			<tr>
 				<td class="center-align"><input type="radio" name="id" value="{{ route.id }}" required></td>
 				<td>{{ route.name }}</td>
 				<td>{{ route.start }}</td>
-				<td>${{ route.end }}</td>
+				<td>{{ route.end }}</td>
 				<td>{{ route.dangerlevel }}</td>
 				<td>{{ route.updated }}</td>
 			</tr>

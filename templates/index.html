@@ -3,34 +3,46 @@
 {% block styles %}
 {{ super() }}
 	<style>
-		body { background: #e8f1f9; }
+		body { background: #f9e8e8; }
 	</style>
 {% endblock %}
 
 {% block title %}
-Sock Market
+Routes Database
 {% endblock %}
 
 
 {% block content %}
 
 <div class="container">
-  <div class="row">
+  <div class="row pb-5">
     <div class="col-md-10 col-lg-8 mx-lg-auto mx-md-auto">
 
       <h1 class="pt-5 pb-2">Cycle</h1>
 
-      <p class="lead">A databse of bike routes</p>
+      <p class="lead">A database of bike routes</p>
 
       <p>Routes:</p>
 
-      <ul>
-          {% for s in routes %}
-          <li><a href="{{ url_for( 'inventory', style=s.style ) }}">{{ s.style }}</a></li>
+        <table class="table">
+          <tr>
+              <th>Route Name</th>
+              <th>Start</th>
+              <th>End</th>
+              <th>Danger Level</th>
+          </tr>
+    
+          <!-- here is a for-loop to give us all the routes -->
+          {% for route in routes %}
+          <tr>
+              <td>{{ route.name }}</td>
+              <td>{{ route.start }}</td>
+              <td>{{ route.end }}</td>
+              <td>{{ route.dangerlevel }}</td>
+          </tr>
           {% endfor %}
-      </ul>
-
-	  <!-- links -->
+        </table>
+      
 	  <p>You can <a href="{{ url_for('add_record') }}">submit a new route</a>.</p>
 	  <p>You can <a href="{{ url_for( 'select_record', letters='AF' ) }}">select a route for editing</a>.</p>
 

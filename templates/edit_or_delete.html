@@ -32,22 +32,18 @@
 	  		Edit a Route
 	  	{% endif %}
 	  </h1>
-	  <!-- ----- THIS TEMPLATE HAS TWO FORMS ----- -->
-	  <!-- but only one will be visible, depending on how the template
-  		   was opened -->
-
-	  <!-- ----- start delete sock content ----- -->
+	  
 
 	  {% if choice == 'delete' %}
 
 	      <p class="lead alert alert-danger">Are you sure you want to delete this route?</p>
 
-		  <!-- links -->
+		 
 		  <p class="ml-4">No. <a href="{{ url_for('index') }}">Return to the index.</a></p>
 
 		  <p class="ml-4">No. <a href="{{ url_for( 'select_record', letters='AF' ) }}">Return to the selection page.</a></p>
 
-		<!-- table showing the selected sock -->
+		
 		<table class="table">
 			<tr>
 				<th>Route Name</th>
@@ -61,7 +57,7 @@
 			<tr>
 				<td>{{ route.name }}</td>
 				<td>{{ route.start }}</td>
-				<td>${{ route.end }}</td>
+				<td>{{ route.end }}</td>
 				<td>{{ route.dangerlevel }}</td>
 				<td>{{ route.updated }}</td>
 			</tr>

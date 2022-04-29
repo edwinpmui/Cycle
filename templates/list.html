@@ -21,26 +21,23 @@ Routes List
 
       <h1 class="pt-5 pb-2">List of Routes</h1>
 
-      <p class="lead alert alert-warning">This is a list of all the routes of the
-			<strong>{{ style }}</strong> style in our database.</p>
-
 	  <p class="ml-4"><a href="{{ url_for('index') }}">Return to the index.</a></p>
 
 		<table class="table">
 			<tr>
-				<th>Route Name</th>
-				<th>Start</th>
-				<th>End</th>
-				<th>Danger Level</th>
+					<th>Route Name</th>
+					<th>Start</th>
+					<th>End</th>
+					<th>Danger Level</th>
 			</tr>
 
 			<!-- here is a for-loop to give us all the routes -->
 			{% for route in routes %}
 			<tr>
-				<td>{{ route.name }}</td>
-				<td>{{ route.start }}</td>
-				<td>{{ route.end }}</td>
-				<td>{{ route.dangerlevel }}</td>
+					<td>{{ route.name }}</td>
+					<td>{{ route.start }}</td>
+					<td>{{ route.end }}</td>
+					<td>{{ route.dangerlevel }}</td>
 			</tr>
 			{% endfor %}
 		</table>
