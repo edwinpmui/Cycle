@@ -2,7 +2,7 @@
     add new record, delete a record, edit/update a record
     """
 
-from flask import Flask, render_template, request, flash
+from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap
 
@@ -87,15 +87,16 @@ def stringdate():
 # +++++++++++++++++++++++
 # routes
 
-@app.route('/<name>')
+@app.route('/', defaults={'name': ''})
+@app.route('/<path:name>')
 def index(name):
-    routes = Route.query.filter_by(name=name).order_by(Route.name).all()
-    return render_template('index.html', routes=routes, name = name)
+    routes = Route.query.filter_by().order_by(Route.name).all()
+    return render_template('index.html', routes = routes)
 
 @app.route('/inventory/<name>')
 def inventory(name):
-    routes = Route.query.filter_by(name=name).order_by(Route.name).all()
-    return render_template('list.html', routes = routes, name = name)
+    routes = Route.query.filter_by().order_by(Route.name).all()
+    return render_template('list.html', routes = routes)
 
 
 @app.route('/add_record', methods=['GET', 'POST'])
