@@ -39,13 +39,14 @@ class Route(db.Model):
     start = db.Column(db.String)
     end = db.Column(db.String)
     dangerlevel = db.Column(db.Integer)
-    
+    updated = db.Column(db.String)
 
-    def __init__(self, name, start, end, dangerlevel):
+    def __init__(self, name, start, end, dangerlevel,updated):
         self.name = name
         self.start = start
         self.end = end
         self.dangerlevel = dangerlevel
+        self.updated = updated
        
 
 # +++++++++++++++++++++++
@@ -71,7 +72,7 @@ class AddRecord(FlaskForm):
 class DeleteForm(FlaskForm):
     id_field = HiddenField()
     purpose = HiddenField()
-    submit = SubmitField('Delete This Sock')
+    submit = SubmitField('Delete This Route')
 
 # +++++++++++++++++++++++
 # get local date - does not account for time zone
@@ -86,18 +87,17 @@ def stringdate():
 # +++++++++++++++++++++++
 # routes
 
-@app.route('/')
-def index():
-    # get a list of unique values in the style column
-    route = Route.query.with_entities(Route.start).distinct()
-    return render_template('index.html', route=route)
+@app.route('/<name>')
+def index(name):
+    routes = Route.query.filter_by(name=name).order_by(Route.name).all()
+    return render_template('index.html', routes=routes, name = name)
 
-@app.route('/inventory/<start>')
-def inventory(start):
-    route = Route.query.filter_by(start=start).order_by(Route.name).all()
-    return render_template('list.html', route = route, start = start)
+@app.route('/inventory/<name>')
+def inventory(name):
+    routes = Route.query.filter_by(name=name).order_by(Route.name).all()
+    return render_template('list.html', routes = routes, name = name)
 
-# add a new sock to the database
+
 @app.route('/add_record', methods=['GET', 'POST'])
 def add_record():
     form1 = AddRecord()
@@ -109,7 +109,7 @@ def add_record():
         # get today's date from function, above all the routes
         updated = stringdate()
         # the data to be inserted into Sock model - the table, socks
-        record = Route(name, start, end, dangerlevel)
+        record = Route(name, start, end, dangerlevel, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
@@ -133,8 +133,8 @@ def select_record(letters):
     # alphabetical lists by sock name, chunked by letters between _ and _
     # .between() evaluates first letter of a string
     a, b = list(letters)
-    route = Route.query.filter(Route.name.between(a, b)).order_by(Route.name).all()
-    return render_template('select_record.html', route=route)
+    routes = Route.query.filter(Route.name.between(a, b)).order_by(Route.name).all()
+    return render_template('select_record.html', routes=routes)
 
 # edit or delete - come here from form in /select_record
 @app.route('/edit_or_delete', methods=['POST'])
