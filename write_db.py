@@ -39,13 +39,15 @@ class Route(db.Model):
     start = db.Column(db.String)
     end = db.Column(db.String)
     dangerlevel = db.Column(db.Integer)
+    miles = db.Column(db.Integer)
     updated = db.Column(db.String)
 
-    def __init__(self, name, start, end, dangerlevel,updated):
+    def __init__(self, name, start, end, dangerlevel,miles, updated):
         self.name = name
         self.start = start
         self.end = end
         self.dangerlevel = dangerlevel
+        self.miles = miles
         self.updated = updated
        
 
@@ -63,7 +65,9 @@ class AddRecord(FlaskForm):
     dangerlevel = IntegerField('How dangerous?', [ InputRequired(),
         NumberRange(min=1, max=10, message="Invalid range")
         ])
-    
+    miles = IntegerField('How long is the route?', [ InputRequired(),
+        NumberRange(min=1, max=9999, message="Invalid range")
+        ])
     # updated - date - handled in the route
     updated = HiddenField()
     submit = SubmitField('Add/Update Record')
@@ -107,10 +111,11 @@ def add_record():
         start = request.form['start']
         end = request.form['end']
         dangerlevel = request.form['dangerlevel']
+        miles = request.form['miles']
         # get today's date from function, above all the routes
         updated = stringdate()
         # the data to be inserted into Sock model - the table, socks
-        record = Route(name, start, end, dangerlevel, updated)
+        record = Route(name, start, end, dangerlevel, miles, updated)
         # Flask-SQLAlchemy magic adds record to database
         db.session.add(record)
         db.session.commit()
@@ -131,7 +136,7 @@ def add_record():
 # select a record to edit or delete
 @app.route('/select_record/<letters>')
 def select_record(letters):
-    # alphabetical lists by sock name, chunked by letters between _ and _
+    # alphabetical lists by name, chunked by letters between _ and _
     # .between() evaluates first letter of a string
     a, b = list(letters)
     routes = Route.query.filter(Route.name.between(a, b)).order_by(Route.name).all()
@@ -174,6 +179,7 @@ def edit_result():
     route.start = request.form['start']
     route.end = request.form['end']
     route.dangerlevel = request.form['dangerlevel']
+    route.miles = request.form['miles']
     # get today's date from function, above all the routes
     Route.updated = stringdate()
 

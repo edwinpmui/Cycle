@@ -50,6 +50,7 @@
 				<th>Start</th>
 				<th>End</th>
 				<th>Danger Level</th>
+				<th>Miles</th>
 				<th>Updated</th>
 			</tr>
 			<tr>
@@ -57,6 +58,7 @@
 				<td>{{ route.start }}</td>
 				<td>{{ route.end }}</td>
 				<td>{{ route.dangerlevel }}</td>
+				<td>{{ route.miles}}</td>
 				<td>{{ route.updated }}</td>
 			</tr>
 
@@ -111,6 +113,7 @@
 			{{ wtf.form_field(form1.start, value=route.start) }}
 			{{ wtf.form_field(form1.end, value=route.end) }}
 			{{ wtf.form_field(form1.dangerlevel, value=route.dangerlevel) }}
+			{{ wtf.form_field(form1.miles, value=route.miles) }}
 			{{ wtf.form_field(form1.submit, button_map={'submit':'success'}) }}
 		</form>
 
